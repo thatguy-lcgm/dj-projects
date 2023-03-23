@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'base.html' %}
+{% block title %}Login{% endblock %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% block content %}
+    <h1>Login</h1>
+    <br><br>
+    <form method="POST">
+        {% csrf_token %}
+        <form>
+            <div class="mb-3">
+              <input type="text" class="form-control" name="username" placeholder="Username">
+                <small class="text-muted">
+                    We'll never share your email with anyone else.
+                </small>
+
+            </div>
+            <div class="mb-3">
+                <input type="password" class="form-control" name="password" placeholder="Password">
+                <small class="text-muted">
+                    Your password must be 8-20 characters long, contain letters and numbers, and must not contain spaces, special characters, or emoji.
+                </small>
+            </div>
+            <br>
+            <button class="btn btn-primary">Login</button>
+        </form>
+    </form>
+    <br><br>
+    <p>Not Registered? Sign Up <a href="{% url 'register' %}">here</a></p>
+
+    {% endblock %}
+</body>
+</html>

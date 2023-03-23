@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My first page</title>
+</head>
+<body>
+    <h1>Post</h1>
+    <hr>
+    <ul>
+    {% for post in object_list %}
+        <li><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a>
+        - <a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a>
+        - {{ post.author.first_name }}
+            {{ post.author.last_name }} -
+            {{ post.post_date }}
+            {% if user.is_authenticated and post.author.id == user.id or user.id == 1%} -
+            <small><a href="{% url 'update_post' post.pk %}">✏️Edit</a> | <a href="{% url 'delete_post' post.pk%}">❌Delete</a></small>
+            {% endif %} <br/>
+            {{ post.snippet }}
+         <br>
+        <small>{{ post.total_likes }} Like</small>
+        </li>
+        <br>
+    {% endfor%}
+    </ul>
+
+    <hr/>
+    <div align='center'>
+        <p>What if i tell you that i have a little surprise for u, would you accept????</p>
+        <a href="https://www.youtube.com/watch?v=csvhn7YexUc" target="_blank" rel="external"><button class="btn btn-outline-danger">YES</button></a>
+        <a href="https://www.youtube.com/watch?v=DPBIuzlcx6U&t=970s" target="_blank" rel="external"><button class="btn btn-outline-primary">YES</button></a>
+    <br/><br/>
+    <p><strong>YES, "YES" AND "YES" are the only two options!</strong></p>
+    <br>
+    <small>
+        By: Lucas <br>
+        V 4.1
+    </small>
+    </div>
+
+    <br/><br/>
+    {% endblock %}
+</body>
+</html>

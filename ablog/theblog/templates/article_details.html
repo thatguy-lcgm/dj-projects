@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}{{ post.title }}{% endblock %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Info</title>
+</head>
+<body>
+    <h1>{{ post.title }}</h1>
+    <p><small>By: 
+        {% if post.author.profile.id %}
+        <a href="{% url 'show_profile_page' post.author.profile.id %}">
+            {% endif %}
+            {{ post.author.first_name }}
+            {{ post.author.last_name }}
+        </a> - 
+        {{ post.post_date }}
+        {% if user.is_authenticated and post.author.id == user.id or user.id == 1%} -
+        <a href="{% url 'update_post' post.pk %}"> ✏️Edit</a> | <a href="{% url 'delete_post' post.pk %}">❌Delete</a></small></p>
+        {% endif %}
+    <hr><br/>
+    <p>{{ post.body|safe }}</p>
+    <br><br>
+
+    
+    <br>
+    {% if user.is_authenticated %}
+    <form action="{% url 'like_post' post.pk %}" method="POST">
+        {% csrf_token %}
+        {% if not liked %}
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-primary btn-sm">Like </button> | 
+        {% else %}
+            <button type="submit", name="post_id", value="{{ post.id }}", class="btn btn-danger btn-sm">Unlike </button> | 
+        {% endif %}
+        {% else %}
+            <a href="{% url 'login' %}">Login</a> to like | 
+    {% endif %}
+        {{ total_likes }} Likes
+    </form>
+    <hr>
+
+    <br/><br/>
+
+    <div class="card" style="width: 18rem;">
+        {% if post.author.profile.profile_pic %}
+            <img class="card-img-top" src="{{ post.author.profile.profile_pic.url }}"  alt="Card image cap">
+        {% else %}
+            <img src="{% static 'theblog/images/no_pfp.jpg' %}" alt="PFP">
+        {% endif %}
+
+        <div class="card-body">
+          <h5 class="card-title">{{ post.author.first_name }} {{ post.author.last_name }}
+            {% if post.author.profile %}
+            <a href="{% url 'show_profile_page' post.author.profile.id %}"><img src="https://cdn2.iconfinder.com/data/icons/flat-style-svg-icons-part-2/512/find_user_search-512.png" width='25' alt="View User Profile"></a>
+          </h5>
+            {% endif %}
+          <p class="small text-muted">
+            {% if post.author.profile.website_url %}
+                <a href="{{ post.author.profile.website_url }}" target="_blank" rel="external"><img src="https://www.citypng.com/public/uploads/small/11640343826ighpojsmidh0mxw4j81151ntegrodm8updbep39hp9gwju5y8y1hn2b2pzbo7m2xjc7irrrtple97pbso1vyqsubmgjibshdxt75.png" width="25" alt="Website"></a>
+            {% endif %}
+
+            {% if post.author.profile.facebook_url %}
+                | <a href="{{ post.author.profile.facebook_url }} " target="_blank"><img src="https://www.freeiconspng.com/thumbs/facebook-icon-png/facebook-icon--basic-round-social-iconset--s-icons-7.png" width="25" alt=""></a>
+            {% endif %}
+
+            {% if post.author.profile.twitter_url %}
+                | <a href="{{ post.author.profile.twitter_url }} " target="_blank"><img src="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-twitter-social-media-round-icon-png-image_6315985.png" alt="Twitter" width="25"></a> 
+            {% endif %}
+
+            {% if post.author.profile.instagram_url %}
+                | <a href="{{ post.author.profile.instagram_url }}" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Instagram-Icon.png/640px-Instagram-Icon.png" width="25" alt="Instagram"></a> 
+            {% endif %}
+
+            {% if post.author.profile.pinterest_url %}
+                | <a href="{{ post.author.profile.pinterest_url }}" target="_blank"><img src="https://freeiconshop.com/wp-content/uploads/edd/pinterest-flat.png" width="25" alt="Pinterest"></a>
+            {% endif %}
+        </p>
+
+        <hr>
+        
+        {% if post.author.profile.bio %}
+            <p class="card-text">{{ post.author.profile.bio }}</p>
+        {% else %}
+            <p class="card-text" style="color: red;">This user does not have a bio</p>
+        {% endif %}
+        </div>
+      </div>
+
+<br>
+<h3>Comments</h3>
+<hr width="50%" align="left">
+<a href="{% url 'add_comment' post.pk %}">Add comment</a>
+<br><br><br>
+
+{% if not post.comments.all %}
+      <p>No comments yet... <a href="{% url 'add_comment' post.pk %}">add one</a></p>
+
+{% else %}
+
+      {% for comment in post.comments.all %}
+        <strong>{{ comment.name }} - {{ comment.date_added }}</strong>
+      <br>
+        {{ comment.body }}
+        <hr width="50%" align="left">
+        
+        {% endfor %}
+
+{% endif %}
+
+
+{% endblock %}
+       
+https://www.youtube.com/watch?v=rJ3Gcv2i0as&list=PLCC34OHNcOtr025c1kHSPrnP18YPB-NFi&index=28
+</body>
+</html> 

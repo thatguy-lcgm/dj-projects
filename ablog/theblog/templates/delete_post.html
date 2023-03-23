@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'base.html' %}
+{% block title %}Delete blog Post{% endblock %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <div class="mb-3">
+    {% block content %}
+
+    {% if user.id == post.author.id or user.id == 1 %}
+    
+    <h1>Delete Post...</h1>
+    <hr>
+    <br/><br/>
+    <h3>Delete: {{ post.title }}</h3>
+    <br><br>
+    <form method="POST">
+        {% csrf_token %}
+        <strong>Are you sure?!</strong><br><br>
+        <button class="btn btn-danger">Yes, Delete Post</button>
+    <div class="mb-3">
+    </div>
+    </form>
+    <a href="{% url 'home' %}"><button class="btn btn-primary">Cancel</button></a>
+    
+    {% else %}
+
+    <h1>You're not allowed!</h1>
+    <hr><br/>
+    <p>This <strong>error</strong> usually occurs when you're trying to delete a post that doesn't belong to you. You also might not be logged in</p>
+
+
+    {% endif %}
+
+    {% endblock %}
+
+
+    
+</body>
+</html>

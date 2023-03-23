@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+{% extends 'base.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My first page</title>
+</head>
+<body>
+    {% if category_post %}
+    <ul>
+        <h1>{{ cats }}</h1>
+        <br>
+        <hr>
+        <br>
+        {% for post in category_post %}
+            <li><a href="{% url 'article-detail' post.pk %}">{{ post.title }}</a>
+            - {{ post.author.first_name }} 
+                {{ post.author.last_name }} - 
+                {{ post.post_date }}
+                {% if user.is_authenticated %} -
+                <small><a href="{% url 'update_post' post.pk %}">✏️Edit</a> | <a href="{% url 'delete_post' post.pk%}">❌Delete</a></small>
+                {% endif %} <br/>
+            {{ post.body|safe|slice:":200" }} <br>
+            </li>
+            <br>
+        {% endfor%}
+        </ul>
+    {% else %}
+    <hr>
+    <h1 align="center"><strong>Category "{{ cats }}" Not found :(</strong></h1>
+
+    {% endif %}
+    {% endblock %}
+</body>
+</html>
+
+

@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<h1>User profile</h1>
+
+<br><br>
+<div class="card" style="width: 18rem;">
+    {% if profile.profile_pic %}
+        <img class="card-img-top" src="{{ profile.profile_pic.url }}"  alt="Card image cap">
+    {% else %}
+        <img src="{% static 'theblog/images/no_pfp.jpg' %}" alt="PFP">
+    {% endif %}
+
+    <div class="card-body">
+      <h5 class="card-title">{{ profile.user.first_name }} {{ profile.user.last_name }}
+      </h5>
+
+      <p class="small text-muted">
+        {% if profile.website_url %}
+            <a href="{{ profile.website_url }}" target="_blank" rel="external"><img src="https://www.citypng.com/public/uploads/small/11640343826ighpojsmidh0mxw4j81151ntegrodm8updbep39hp9gwju5y8y1hn2b2pzbo7m2xjc7irrrtple97pbso1vyqsubmgjibshdxt75.png" width="25" alt="Website"></a>
+        {% endif %}
+
+        {% if profile.facebook_url %}
+            | <a href="{{ profile.facebook_url }} " target="_blank"><img src="https://www.freeiconspng.com/thumbs/facebook-icon-png/facebook-icon--basic-round-social-iconset--s-icons-7.png" width="25" alt=""></a>
+        {% endif %}
+
+        {% if profile.twitter_url %}
+            | <a href="{{ profile.twitter_url }} " target="_blank"><img src="https://png.pngtree.com/png-vector/20221018/ourmid/pngtree-twitter-social-media-round-icon-png-image_6315985.png" alt="Twitter" width="25"></a> 
+        {% endif %}
+
+        {% if profile.instagram_url %}
+            | <a href="{{ profile.instagram_url }}" target="_blank"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Instagram-Icon.png/640px-Instagram-Icon.png" width="25" alt="Instagram"></a> 
+        {% endif %}
+
+        {% if profile.pinterest_url %}
+            | <a href="{{ profile.pinterest_url }}" target="_blank"><img src="https://freeiconshop.com/wp-content/uploads/edd/pinterest-flat.png" width="25" alt="Pinterest"></a>
+        {% endif %}
+    </p>
+
+    <hr>
+    
+    {% if profile.bio %}
+        <p class="card-text">{{ profile.bio }}</p>
+    {% else %}
+        <p class="card-text" style="color: red;">This user does not have a bio</p>
+    {% endif %}
+
+    </div>
+  </div>
+
+{% endblock %}

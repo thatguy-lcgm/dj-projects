@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}Add category{% endblock %}
+
+
+{% block content %}
+
+{% if user.is_authenticated and user.id == 1 %}
+
+    <h1>Add Category...</h1>
+    <br><br>
+
+    <div class="form-group">
+        <form method="POST">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button class="btn btn-primary">Add category</button>
+        </form>
+
+{% else %}
+
+    <h1>OPS... You can't reach this level:(</h1>
+    <hr><br>
+    <p>Option only available for superusers</p>
+{% endif %}
+
+{% endblock %}
+    </div>
